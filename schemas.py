@@ -2,8 +2,13 @@ from enum import Enum
 from pydantic import BaseModel, EmailStr, StringConstraints
 from typing import Annotated
 
-class EmpresaCreate(BaseModel):
+class EmpresaBase(BaseModel):
     nome: str
+    endereco: str
+    email: EmailStr
+    telefone: str
+
+class EmpresaCreate(EmpresaBase):
     cnpj: Annotated[ 
         str, 
         StringConstraints(
@@ -12,9 +17,16 @@ class EmpresaCreate(BaseModel):
             max_length=14
         ),
     ]
-    endereco: str
-    email: EmailStr
-    telefone: str
+
+class EmpresaUpdate(EmpresaBase):
+    cnpj: Annotated[ 
+        str, 
+        StringConstraints(
+            strip_whitespace=True,
+            min_length=14,
+            max_length=14
+        ),
+    ] | None = None
 
 class Empresa(EmpresaCreate):
     id: int
