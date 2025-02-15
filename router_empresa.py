@@ -24,7 +24,10 @@ def create_empresa(empresa: schemas.EmpresaCreate, database: Session = Depends(g
 
 @router_empresa.get("/empresa/", response_model=List[schemas.Empresa], status_code=200)
 def get_empresa(database: Session = Depends(get_db)):
-    return crud_empresa.get_empresa_all(database=database)
+    empresa = crud_empresa.get_empresa_all(database=database)
+    if not empresa:
+        return []
+    return empresa
 
 @router_empresa.get("/empresa/{id}/", response_model=schemas.Empresa, status_code=200)
 def get_empresa_unique(database: Session = Depends(get_db), id: int = Path(..., gt=0)):
@@ -37,14 +40,12 @@ def get_empresa_unique(database: Session = Depends(get_db), id: int = Path(..., 
 def delete_empresa(database: Session = Depends(get_db), id: int = Path(..., gt=0)):
     db_empresa = crud_empresa.get_empresa_by_id(database, id)
     if not db_empresa:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="A empresa não existe no cadastro.")
-    db_empresa = crud_empresa.delete_empresa(database=database, empresa_id=id)
-    return db_empresa
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Empresa não encontrada.")
+    return crud_empresa.delete_empresa(database=database, empresa_id=id)
 
 @router_empresa.put("/empresa/{id}", response_model=schemas.Empresa, status_code=200)
 def put_empresa(empresa: schemas.EmpresaUpdate, database: Session = Depends(get_db), id: int = Path(..., gt=0)):
     db_empresa = crud_empresa.get_empresa_by_id(database, id)
     if not db_empresa:
         raise HTTPException(status_code=404, detail="A empresa não existe no cadastro.")
-    db_empresa = crud_empresa.put_empresa(database=database, empresa_id=id, empresa=empresa)
-    return db_empresa
+    return crud_empresa.update_empresa(database=database, empresa_id=id, empresa=empresa)
