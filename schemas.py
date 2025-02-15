@@ -52,6 +52,7 @@ class ObrigacaoAcessoriaUpdate(ObrigacaoAcessoriaBase):
 
 class ObrigacaoAcessoria(ObrigacaoAcessoriaBase):
     id: int
+    empresa_id: int
 
     class Config:
         from_attributes: True
