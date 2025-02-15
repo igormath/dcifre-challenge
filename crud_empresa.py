@@ -25,11 +25,15 @@ def get_empresa_by_cnpj(database: Session, empresa_cnpj: str):
 
 def delete_empresa(database: Session, empresa_id: int):
     empresa = database.query(models.Empresa).filter(models.Empresa.id == empresa_id).first()
-    database.delete(empresa)
-    database.commit()
-    return empresa
+    try:
+        database.delete(empresa)
+        database.commit()
+        return empresa
+    except IntegrityError as e:
+        database.rollback()
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Houve um erro ao remover a empresa.")
 
-def put_empresa(database: Session, empresa_id: int, empresa: schemas.EmpresaUpdate):
+def update_empresa(database: Session, empresa_id: int, empresa: schemas.EmpresaUpdate):
     db_empresa = database.query(models.Empresa).filter(models.Empresa.id == empresa_id).first()
 
     db_empresa.nome = empresa.nome
