@@ -32,20 +32,26 @@ class Empresa(EmpresaCreate):
     id: int
     
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class Periodicidade(str, Enum):
     MENSAL = "mensal"
     TRIMESTRAL = "trimestral"
     ANUAL = "anual"
 
-class ObrigacaoAcessoriaCreate(BaseModel):
+class ObrigacaoAcessoriaBase(BaseModel):
     nome: str
     periodicidade: Periodicidade
+
+class ObrigacaoAcessoriaCreate(ObrigacaoAcessoriaBase):
     empresa_id: int
 
-class ObrigacaoAcessoria(ObrigacaoAcessoriaCreate):
+class ObrigacaoAcessoriaUpdate(ObrigacaoAcessoriaBase):
+    nome: str | None = None
+    periodicidade: Periodicidade | None = None
+
+class ObrigacaoAcessoria(ObrigacaoAcessoriaBase):
     id: int
 
     class Config:
-        orm_mode: True
+        from_attributes: True
