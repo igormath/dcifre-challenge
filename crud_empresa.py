@@ -25,6 +25,15 @@ def get_empresa_by_cnpj(database: Session, empresa_cnpj: str):
 
 def delete_empresa(database: Session, empresa_id: int):
     empresa = database.query(models.Empresa).filter(models.Empresa.id == empresa_id).first()
+    if not empresa:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Empresa não encontrada no banco de dados.")
+    
+    try:
+        database.query(models.ObrigacaoAcessoria).filter(models.ObrigacaoAcessoria.empresa_id == empresa_id).delete(synchronize_session=False)
+    except IntegrityError as e:
+        database.rollback()
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Houve um erro ao remover as obrigações acessórias desta empresa.")
+
     try:
         database.delete(empresa)
         database.commit()
