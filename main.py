@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from router_empresa import router_empresa
-from router_obrigacao_acessoria import router_obrigacao_acessoria
+from routes_empresa import router_empresa
+from routes_obrigacao_acessoria import router_obrigacao_acessoria
 
 app = FastAPI()
 
