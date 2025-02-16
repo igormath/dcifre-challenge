@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Path
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 import crud_empresa, models, schemas
 from db import SessionLocal, engine
 from typing import List
@@ -17,10 +18,12 @@ def get_db():
 
 @route_empresa.post("/empresa/", response_model=schemas.Empresa, status_code=201)
 def create_empresa(empresa: schemas.EmpresaCreate, database: Session = Depends(get_db)):
-    db_empresa_exists = crud_empresa.get_empresa_by_cnpj(database, empresa_cnpj=empresa.cnpj)
-    if db_empresa_exists:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="A empresa já está cadastrada.")
-    return crud_empresa.create_empresa(database=database, empresa=empresa)
+    try:
+        db_empresa = crud_empresa.create_empresa(database=database, empresa=empresa)
+        return db_empresa
+    except IntegrityError as e:
+        database.rollback()
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Uma empresa com este CNPJ já está cadastrada.")
 
 @route_empresa.get("/empresa/", response_model=List[schemas.Empresa], status_code=200)
 def get_empresa(database: Session = Depends(get_db)):
