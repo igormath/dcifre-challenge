@@ -56,7 +56,7 @@ def update_empresa(database: Session, empresa_id: int, empresa: schemas.EmpresaU
                 models.Empresa.id != empresa_id
             ).first()
         if cnpj_exists:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Já existe uma empresa cadastrada com esse CNPJ.")
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Já existe uma empresa cadastrada com este CNPJ.")
     
     db_empresa.cnpj = empresa.cnpj
 
