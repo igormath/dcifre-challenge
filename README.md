@@ -37,6 +37,7 @@ fastapi dev main.py
 - [Using migrations in Python — SQLAlchemy with Alembic + Docker solution](https://medium.com/@johnidouglasmarangon/using-migrations-in-python-sqlalchemy-with-alembic-docker-solution-bd79b219d6a)
 - [Tutorial - Alembic 1.14.1 documentation](https://alembic.sqlalchemy.org/en/latest/tutorial.html)
 - [FastAPI Best Practices](https://github.com/zhanymkanov/fastapi-best-practices?tab=readme-ov-file#project-structure)
+- [fastapi-crud-sync - Exemplo API REST com FastAPI + Testes com Pytest](https://github.com/testdrivenio/fastapi-crud-sync)
 - [Como criar uma API REST usando Python com FastAPI Framework](https://medium.com/@vinicius_/como-criar-uma-api-rest-usando-python-com-fastapi-framework-1701849c0ce6)
 - [Import APIRouter](https://fastapi.tiangolo.com/tutorial/bigger-applications/#import-apirouter)
 - [How to group FastAPI endpoints in Swagger UI?](https://stackoverflow.com/questions/63762387/how-to-group-fastapi-endpoints-in-swagger-ui)
