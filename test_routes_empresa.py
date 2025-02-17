@@ -2,8 +2,8 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from main import app  # Certifique-se de que 'main' é o nome do arquivo onde você configurou o FastAPI app
-from db import Base  # Importe get_db aqui
+from main import app
+from db import Base
 from models import Empresa
 from routes_empresa import get_db
 
@@ -40,7 +40,6 @@ def client(db):
     app.dependency_overrides.clear()
 
 def test_get_empresa_all(client, db):
-    # Adicionando uma empresa para testar a listagem
     empresa = Empresa(
         nome="Empresa Teste 2",
         endereco="Rua Teste, 456",
@@ -76,7 +75,6 @@ def test_create_empresa(client):
     assert data["cnpj"] == "12345678901234"
 
 def test_get_empresa_by_id(client, db):
-    # Adicionando uma empresa para testar a busca por ID
     empresa = Empresa(
         nome="Empresa Teste 3",
         endereco="Rua Teste, 789",
@@ -95,7 +93,6 @@ def test_get_empresa_by_id(client, db):
     assert data["email"] == "teste3@example.com"
 
 def test_delete_empresa(client, db):
-    # Adicionando uma empresa para testar a exclusão
     empresa = Empresa(
         nome="Empresa Teste 4",
         endereco="Rua Teste, 1011",
@@ -112,12 +109,10 @@ def test_delete_empresa(client, db):
     data = response.json()
     assert data["nome"] == "Empresa Teste 4"
 
-    # Verificando se a empresa foi realmente excluída
     response = client.get(f"/empresa/{empresa.id}/")
     assert response.status_code == 404
 
 def test_update_empresa(client, db):
-    # Adicionando uma empresa para testar a atualização
     empresa = Empresa(
         nome="Empresa Teste 5",
         endereco="Rua Teste, 1213",

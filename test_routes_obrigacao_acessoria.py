@@ -2,11 +2,10 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from main import app  # Certifique-se de que 'main' é o nome do arquivo onde você configurou o FastAPI app
-from db import Base  # Importe get_db aqui
+from main import app
+from db import Base
 from routes_obrigacao_acessoria import get_db
 from models import ObrigacaoAcessoria, Empresa
-from crud_empresa import get_empresa_by_cnpj  # Importe get_empresa_by_cnpj aqui
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
 
@@ -15,7 +14,7 @@ TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engin
 
 Base.metadata.create_all(bind=engine)
 
-@pytest.fixture(scope="function")  # Altere para "function"
+@pytest.fixture(scope="function") 
 def db():
     connection = engine.connect()
     transaction = connection.begin()
@@ -27,8 +26,8 @@ def db():
     transaction.rollback()
     connection.close()
 
-@pytest.fixture(scope="function")  # Altere para "function"
-def client(db):  # client depende de db, então o escopo precisa ser igual ou menor
+@pytest.fixture(scope="function")
+def client(db):
     def override_get_db():
         try:
             yield db
@@ -41,7 +40,6 @@ def client(db):  # client depende de db, então o escopo precisa ser igual ou me
     app.dependency_overrides.clear()
 
 def test_get_obrigacao_acessoria_all(client, db):
-    # Adicionando uma obrigação acessória para testar a listagem
     empresa = Empresa(
         nome="Empresa Teste 2",
         endereco="Rua Teste, 456",
@@ -69,7 +67,6 @@ def test_get_obrigacao_acessoria_all(client, db):
     assert data[0]["nome"] == "Obrigação Teste 2"
 
 def test_get_obrigacao_acessoria_by_id(client, db):
-    # Adicionando uma obrigação acessória para testar a busca por ID
     empresa = Empresa(
         nome="Empresa Teste 3",
         endereco="Rua Teste, 789",
@@ -97,7 +94,6 @@ def test_get_obrigacao_acessoria_by_id(client, db):
     assert data["periodicidade"] == "trimestral"
 
 def test_delete_obrigacao_acessoria(client, db):
-    # Adicionando uma obrigação acessória para testar a exclusão
     empresa = Empresa(
         nome="Empresa Teste 4",
         endereco="Rua Teste, 1011",
@@ -123,12 +119,10 @@ def test_delete_obrigacao_acessoria(client, db):
     data = response.json()
     assert data["nome"] == "Obrigação Teste 4"
 
-    # Verificando se a obrigação acessória foi realmente excluída
     response = client.get(f"/obrigacao_acessoria/{obrigacao.id}")
     assert response.status_code == 404
 
 def test_update_obrigacao_acessoria(client, db):
-    # Adicionando uma obrigação acessória para testar a atualização
     empresa = Empresa(
         nome="Empresa Teste 5",
         endereco="Rua Teste, 1213",
