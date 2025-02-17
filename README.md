@@ -31,7 +31,7 @@ fastapi dev main.py
 ```
 
 ## Swagger API
-- [Rotas e Schemas utilizadas](https://drive.google.com/file/d/1F_cIDW0afllw5zg7NClyIZM4gcvm6VrL/view).
+- [Rotas e Schemas utilizadas](https://drive.google.com/file/d/1F_cIDW0afllw5zg7NClyIZM4gcvm6VrL/view) - Aguarde a imagem carregar para dar zoom.
 
 ## Referências utilizadas:
 - [Using migrations in Python — SQLAlchemy with Alembic + Docker solution](https://medium.com/@johnidouglasmarangon/using-migrations-in-python-sqlalchemy-with-alembic-docker-solution-bd79b219d6a)
