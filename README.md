@@ -25,7 +25,13 @@ pip install -r requirements.txt
 
 4) Renomeie o arquivo **.env-example** para **.env**, e substitua os campos **{USERNAME}**, **{PASSWORD}** e **{DATABASE_NAME}** pelos seus respectivos dados do banco de dados [Postgres](https://www.postgresql.org/download/).
 
-5) Inicie a aplicação:
+5) Execute a migration para criar as tabelas no banco de dados:
+
+```bash
+alembic upgrade head
+```
+
+6) Inicie a aplicação:
 ```bash
 fastapi dev main.py
 ```
