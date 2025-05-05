@@ -6,6 +6,8 @@ Criar uma API simples utilizando FastAPI, Pydantic, SQLAlchemy para cadastrar
 empresas e gerenciar obrigações acessórias que a empresa precisa declarar para o
 governo.
 
+**Obs.:** A organização dos arquivos na pasta raiz foi um requisito do teste.
+
 ## Como rodar a aplicação:
 A API foi desenvolvida na versão 3.13.1 do Python, que pode ser obtida [aqui](https://www.python.org/downloads/).
 
